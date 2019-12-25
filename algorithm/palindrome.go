@@ -2,7 +2,11 @@ package algorithm
 
 import "keeplearning/structure"
 
-func isListPalindrome(list structure.List) bool {
+func isSinglyListPalindrome(list structure.SinglyList) bool {
+	return true
+}
+
+func isDoublyListPalindrome(list structure.List) bool {
 	if list.GetSize() <= 1 {
 		return true
 	}

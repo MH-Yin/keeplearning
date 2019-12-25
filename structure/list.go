@@ -1,5 +1,94 @@
-// list && lruList
+// singly and doubly list
 package structure
+
+type SinglyList interface {
+	Insert(value interface{})
+	Remove(node SinglyNode)
+	GetSize() int
+	GetFirstNode() SinglyNode
+	GetLastNode() SinglyNode
+}
+
+type SinglyNode interface {
+	GetValue() interface{}
+	GetNextNode() SinglyNode
+	IsNil() bool
+}
+
+type singlyList struct {
+	firstNode *singlyNode
+	lastNode  *singlyNode
+	size      int
+}
+
+type singlyNode struct {
+	nextNode *singlyNode
+	value    interface{}
+}
+
+func (n *singlyNode) GetValue() interface{} {
+	return n.value
+}
+
+func (n *singlyNode) GetNextNode() SinglyNode {
+	return n.nextNode
+}
+
+func (n *singlyNode) IsNil() bool {
+	return n == nil
+}
+
+func NewSingleList() SinglyList {
+	return new(singlyList)
+}
+
+func (l *singlyList) Insert(value interface{}) {
+	newNode := &singlyNode{
+		value: value,
+	}
+	if l.size != 0 {
+		l.lastNode.nextNode = newNode
+	} else {
+		l.firstNode = newNode
+	}
+	l.lastNode = newNode
+	l.size++
+}
+
+func (l *singlyList) GetFirstNode() SinglyNode {
+	return l.firstNode
+}
+
+func (l *singlyList) GetLastNode() SinglyNode {
+	return l.lastNode
+}
+
+func (l *singlyList) Remove(n SinglyNode) {
+	if n == nil {
+		return
+	}
+	node := l.firstNode
+	var pre *singlyNode
+	for ; ; node = node.nextNode {
+		if node == nil {
+			return
+		}
+		if node == n.(*singlyNode) {
+			if pre == nil {
+				l.firstNode = l.firstNode.nextNode
+			} else {
+				pre.nextNode = node.nextNode
+			}
+			break
+		}
+		pre = node
+	}
+	l.size--
+}
+
+func (l *singlyList) GetSize() int {
+	return l.size
+}
 
 type List interface {
 	Insert(value interface{})
@@ -103,47 +192,4 @@ func (l *list) Remove(n Node) {
 
 func (l *list) GetSize() int {
 	return l.size
-}
-
-type lruList struct {
-	l   *list
-	cap int
-}
-
-func NewLruList(cap int) List {
-	if cap == 0 {
-		return nil
-	}
-	return &lruList{
-		l:   &list{},
-		cap: cap,
-	}
-}
-
-func (lr *lruList) Insert(value interface{}) {
-	if lr.l.size == lr.cap {
-		lr.removeOldest()
-	}
-	lr.l.Insert(value)
-}
-
-func (lr *lruList) Remove(n Node) {
-	lr.l.Remove(n)
-}
-
-func (lr *lruList) GetSize() int {
-	return lr.l.size
-}
-
-func (lr *lruList) GetFirstNode() Node {
-	return lr.l.firstNode
-}
-
-func (lr *lruList) GetLastNode() Node {
-	return lr.l.lastNode
-}
-
-func (lr *lruList) removeOldest() {
-	removeNode := lr.l.firstNode
-	lr.l.Remove(removeNode)
 }

@@ -6,43 +6,48 @@ import (
 	"testing"
 )
 
-func Test_isListPalindrome(t *testing.T) {
-	tests := []struct {
-		li     structure.List
-		insert []int
-		result bool
-	}{
-		{
-			li:     structure.NewList(),
-			insert: []int{},
-			result: true,
-		},
-		{
-			li:     structure.NewList(),
-			insert: []int{1, 2, 3, 4, 3, 2, 1},
-			result: true,
-		},
-		{
-			li:     structure.NewList(),
-			insert: []int{0, 1, 2, 3, 4, 5, 3, 2, 1, 0},
-			result: false,
-		},
-		{
-			li:     structure.NewList(),
-			insert: []int{1,2,3,4,5},
-			result: false,
-		},
-		{
-			li:     structure.NewList(),
-			insert: []int{1},
-			result: true,
-		},
-	}
+var tests = []struct {
+	insert []int
+	result bool
+}{
+	{
+		insert: []int{},
+		result: true,
+	},
+	{
+		insert: []int{1, 2, 3, 4, 3, 2, 1},
+		result: true,
+	},
+	{
+		insert: []int{0, 1, 2, 3, 4, 5, 3, 2, 1, 0},
+		result: false,
+	},
+	{
+		insert: []int{1, 2, 3, 4, 5},
+		result: false,
+	},
+	{
+		insert: []int{1},
+		result: true,
+	},
+}
 
-	for _, test :=  range tests {
+func Test_isSinglyListPalindrome(t *testing.T) {
+	for _, test := range tests {
+		li := structure.NewSingleList()
 		for _, v := range test.insert {
-			test.li.Insert(v)
+			li.Insert(v)
 		}
-		assert.Equal(t, test.result, isListPalindrome(test.li))
+		assert.Equal(t, test.result, isSinglyListPalindrome(li))
+	}
+}
+
+func Test_isDoublyListPalindrome(t *testing.T) {
+	for _, test := range tests {
+		li := structure.NewList()
+		for _, v := range test.insert {
+			li.Insert(v)
+		}
+		assert.Equal(t, test.result, isDoublyListPalindrome(li))
 	}
 }
