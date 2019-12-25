@@ -1,10 +1,10 @@
 package algorithm
 
-import "keeplearning/structure"
+import "github.com/MH-Yin/keeplearning/structure"
 
-func isSinglyListPalindrome(list structure.SinglyList) bool {
-	return true
-}
+//func isSinglyListPalindrome(list structure.SinglyList) bool {
+//	return true
+//}
 
 func isDoublyListPalindrome(list structure.List) bool {
 	if list.GetSize() <= 1 {

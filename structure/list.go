@@ -1,6 +1,10 @@
-// singly and doubly list
 package structure
 
+/*
+  singly and doubly list
+ */
+
+// SinglyList is interface of singlyList
 type SinglyList interface {
 	Insert(value interface{})
 	Remove(node SinglyNode)
@@ -9,6 +13,7 @@ type SinglyList interface {
 	GetLastNode() SinglyNode
 }
 
+// SinglyNode is interface of singlyNode
 type SinglyNode interface {
 	GetValue() interface{}
 	GetNextNode() SinglyNode
@@ -26,22 +31,27 @@ type singlyNode struct {
 	value    interface{}
 }
 
+// GetValue returns node's value.
 func (n *singlyNode) GetValue() interface{} {
 	return n.value
 }
 
+// GetNextNode returns node's nextNode.
 func (n *singlyNode) GetNextNode() SinglyNode {
 	return n.nextNode
 }
 
+// GetNextNode returns whether this node is nil.
 func (n *singlyNode) IsNil() bool {
 	return n == nil
 }
 
+// NewSingleList return SinglyList interface.
 func NewSingleList() SinglyList {
 	return new(singlyList)
 }
 
+// Insert add new node with giving value.
 func (l *singlyList) Insert(value interface{}) {
 	newNode := &singlyNode{
 		value: value,
@@ -90,6 +100,7 @@ func (l *singlyList) GetSize() int {
 	return l.size
 }
 
+// List is interface of doubly List
 type List interface {
 	Insert(value interface{})
 	Remove(node Node)
@@ -98,6 +109,7 @@ type List interface {
 	GetLastNode() Node
 }
 
+// Node is interface of doubly List node
 type Node interface {
 	GetValue() interface{}
 	GetPreNode() Node
@@ -133,6 +145,7 @@ func (n *node) IsNil() bool {
 	return n == nil
 }
 
+// NewList return doubly list
 func NewList() List {
 	return new(list)
 }

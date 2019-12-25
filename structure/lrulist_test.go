@@ -20,27 +20,27 @@ func Test_LRU(t *testing.T) {
 		{
 			value:  "aa",
 			target: "aa",
-			size:1,
+			size:   1,
 		},
 		{
 			value:  "bb",
 			target: "aabb",
-			size:2,
+			size:   2,
 		},
 		{
 			value:  "cc",
 			target: "aabbcc",
-			size:3,
+			size:   3,
 		},
 		{
 			value:  "dd",
 			target: "bbccdd",
-			size:3,
+			size:   3,
 		},
 		{
 			value:  "ee",
 			target: "ccddee",
-			size:3,
+			size:   3,
 		},
 	}
 

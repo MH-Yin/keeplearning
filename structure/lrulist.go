@@ -5,6 +5,7 @@ type lruList struct {
 	cap int
 }
 
+// NewLruList returns List which cap
 func NewLruList(cap int) List {
 	if cap == 0 {
 		return nil
