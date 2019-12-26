@@ -1,18 +1,45 @@
 package algorithm
 
-import "github.com/MH-Yin/keeplearning/structure"
+import (
+	"github.com/MH-Yin/keeplearning/structure"
+)
 
-//func isSinglyListPalindrome(list structure.SinglyList) bool {
-//	return true
-//}
-
-func isDoublyListPalindrome(list structure.List) bool {
-	if list.GetSize() <= 1 {
+func isSinglyListPalindrome(list *structure.SinglyList) bool {
+	if list.Size <= 1 {
 		return true
 	}
-	i, j := list.GetFirstNode(), list.GetLastNode()
-	for ; i != j && i != nil; i, j = i.GetNextNode(), j.GetPreNode() {
-		if i.GetValue() != j.GetValue() {
+
+	var fast, slow = list.FirstNode, list.FirstNode
+	var replace *structure.SinglyNode
+	for ; fast != nil && fast.NextNode != nil; {
+		fast = fast.NextNode.NextNode
+		next := slow.NextNode
+		slow.NextNode = replace
+		replace = slow
+		slow = next
+	}
+
+	if fast != nil {
+		slow = slow.NextNode
+	}
+
+	for ; slow != nil; {
+		if slow.Value != replace.Value {
+			return false
+		}
+		slow = slow.NextNode
+		replace = replace.NextNode
+	}
+	return true
+}
+
+func isDoublyListPalindrome(list *structure.List) bool {
+	if list.Size <= 1 {
+		return true
+	}
+	i, j := list.FirstNode, list.LastNode
+	for ; i != j && i != nil; i, j = i.NextNode, j.PreNode {
+		if i.Value != j.Value {
 			return false
 		}
 	}

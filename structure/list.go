@@ -1,208 +1,122 @@
 package structure
 
 /*
-  singly and doubly list
- */
+  singly and doubly List
+*/
 
-// SinglyList is interface of singlyList
-type SinglyList interface {
-	Insert(value interface{})
-	Remove(node SinglyNode)
-	GetSize() int
-	GetFirstNode() SinglyNode
-	GetLastNode() SinglyNode
+type SinglyList struct {
+	FirstNode *SinglyNode
+	LastNode  *SinglyNode
+	Size      int
 }
 
-// SinglyNode is interface of singlyNode
-type SinglyNode interface {
-	GetValue() interface{}
-	GetNextNode() SinglyNode
-	IsNil() bool
-}
-
-type singlyList struct {
-	firstNode *singlyNode
-	lastNode  *singlyNode
-	size      int
-}
-
-type singlyNode struct {
-	nextNode *singlyNode
-	value    interface{}
-}
-
-// GetValue returns node's value.
-func (n *singlyNode) GetValue() interface{} {
-	return n.value
-}
-
-// GetNextNode returns node's nextNode.
-func (n *singlyNode) GetNextNode() SinglyNode {
-	return n.nextNode
-}
-
-// GetNextNode returns whether this node is nil.
-func (n *singlyNode) IsNil() bool {
-	return n == nil
+type SinglyNode struct {
+	NextNode *SinglyNode
+	Value    interface{}
 }
 
 // NewSingleList return SinglyList interface.
-func NewSingleList() SinglyList {
-	return new(singlyList)
+func NewSingleList() *SinglyList {
+	return new(SinglyList)
 }
 
-// Insert add new node with giving value.
-func (l *singlyList) Insert(value interface{}) {
-	newNode := &singlyNode{
-		value: value,
+// Insert add new Node with giving Value.
+func (l *SinglyList) Insert(value interface{}) {
+	newNode := &SinglyNode{
+		Value: value,
 	}
-	if l.size != 0 {
-		l.lastNode.nextNode = newNode
+	if l.Size != 0 {
+		l.LastNode.NextNode = newNode
 	} else {
-		l.firstNode = newNode
+		l.FirstNode = newNode
 	}
-	l.lastNode = newNode
-	l.size++
+	l.LastNode = newNode
+	l.Size++
 }
 
-func (l *singlyList) GetFirstNode() SinglyNode {
-	return l.firstNode
-}
-
-func (l *singlyList) GetLastNode() SinglyNode {
-	return l.lastNode
-}
-
-func (l *singlyList) Remove(n SinglyNode) {
+func (l *SinglyList) Remove(n *SinglyNode) {
 	if n == nil {
 		return
 	}
-	node := l.firstNode
-	var pre *singlyNode
-	for ; ; node = node.nextNode {
+	node := l.FirstNode
+	var pre *SinglyNode
+	for ; ; node = node.NextNode {
 		if node == nil {
 			return
 		}
-		if node == n.(*singlyNode) {
+		if node == n {
 			if pre == nil {
-				l.firstNode = l.firstNode.nextNode
+				l.FirstNode = l.FirstNode.NextNode
 			} else {
-				pre.nextNode = node.nextNode
+				pre.NextNode = node.NextNode
 			}
 			break
 		}
+
 		pre = node
 	}
-	l.size--
+	l.Size--
 }
 
-func (l *singlyList) GetSize() int {
-	return l.size
+// List is doubly List
+type List struct {
+	FirstNode *Node
+	LastNode  *Node
+	Size      int
 }
 
-// List is interface of doubly List
-type List interface {
-	Insert(value interface{})
-	Remove(node Node)
-	GetSize() int
-	GetFirstNode() Node
-	GetLastNode() Node
+// Node is doubly List Node
+type Node struct {
+	NextNode *Node
+	PreNode  *Node
+	Value    interface{}
 }
 
-// Node is interface of doubly List node
-type Node interface {
-	GetValue() interface{}
-	GetPreNode() Node
-	GetNextNode() Node
-	IsNil() bool
+// NewList return doubly List
+func NewList() *List {
+	return new(List)
 }
 
-type list struct {
-	firstNode *node
-	lastNode  *node
-	size      int
-}
-
-type node struct {
-	nextNode *node
-	preNode  *node
-	value    interface{}
-}
-
-func (n *node) GetValue() interface{} {
-	return n.value
-}
-
-func (n *node) GetPreNode() Node {
-	return n.preNode
-}
-
-func (n *node) GetNextNode() Node {
-	return n.nextNode
-}
-
-func (n *node) IsNil() bool {
-	return n == nil
-}
-
-// NewList return doubly list
-func NewList() List {
-	return new(list)
-}
-
-func (l *list) Insert(value interface{}) {
-	newNode := &node{
-		value: value,
+func (l *List) Insert(value interface{}) {
+	newNode := &Node{
+		Value: value,
 	}
-	if l.size != 0 {
-		newNode.preNode = l.lastNode
-		l.lastNode.nextNode = newNode
+	if l.Size != 0 {
+		newNode.PreNode = l.LastNode
+		l.LastNode.NextNode = newNode
 	} else {
-		l.firstNode = newNode
+		l.FirstNode = newNode
 	}
-	l.lastNode = newNode
-	l.size++
+	l.LastNode = newNode
+	l.Size++
 }
 
-func (l *list) GetFirstNode() Node {
-	return l.firstNode
-}
-
-func (l *list) GetLastNode() Node {
-	return l.lastNode
-}
-
-func (l *list) Remove(n Node) {
-	no, ok := n.(*node)
-	if !ok {
+func (l *List) Remove(n *Node) {
+	if n == nil {
 		return
 	}
 	defer func() {
-		l.size--
+		l.Size--
 	}()
-	// Remove first node
-	if no.preNode == nil {
-		l.firstNode = no.nextNode
-		if l.firstNode != nil {
-			no.nextNode.preNode = nil
+	// Remove first Node
+	if n.PreNode == nil {
+		l.FirstNode = n.NextNode
+		if l.FirstNode != nil {
+			n.NextNode.PreNode = nil
 		}
 		return
 	}
 
-	// Remove last node
-	if no.nextNode == nil {
-		l.lastNode = no.preNode
-		if l.lastNode != nil {
-			no.preNode.nextNode = nil
+	// Remove last Node
+	if n.NextNode == nil {
+		l.LastNode = n.PreNode
+		if l.LastNode != nil {
+			n.PreNode.NextNode = nil
 		}
 		return
 	}
 
-	// node is middle in list
-	no.preNode.nextNode = no.nextNode
-	no.nextNode.preNode = no.preNode
-}
-
-func (l *list) GetSize() int {
-	return l.size
+	// Node is middle in List
+	n.PreNode.NextNode = n.NextNode
+	n.NextNode.PreNode = n.PreNode
 }

@@ -1,45 +1,45 @@
 package structure
 
-type lruList struct {
-	l   *list
+type LRUList struct {
+	l   *List
 	cap int
 }
 
 // NewLruList returns List which cap
-func NewLruList(cap int) List {
+func NewLruList(cap int) *LRUList {
 	if cap == 0 {
 		return nil
 	}
-	return &lruList{
-		l:   &list{},
+	return &LRUList{
+		l:   NewList(),
 		cap: cap,
 	}
 }
 
-func (lr *lruList) Insert(value interface{}) {
-	if lr.l.size == lr.cap {
+func (lr *LRUList) Insert(value interface{}) {
+	if lr.l.Size == lr.cap {
 		lr.removeOldest()
 	}
 	lr.l.Insert(value)
 }
 
-func (lr *lruList) Remove(n Node) {
+func (lr *LRUList) Remove(n *Node) {
 	lr.l.Remove(n)
 }
 
-func (lr *lruList) GetSize() int {
-	return lr.l.size
+func (lr *LRUList) GetSize() int {
+	return lr.l.Size
 }
 
-func (lr *lruList) GetFirstNode() Node {
-	return lr.l.firstNode
+func (lr *LRUList) GetFirstNode() *Node {
+	return lr.l.FirstNode
 }
 
-func (lr *lruList) GetLastNode() Node {
-	return lr.l.lastNode
+func (lr *LRUList) GetLastNode() *Node {
+	return lr.l.LastNode
 }
 
-func (lr *lruList) removeOldest() {
-	removeNode := lr.l.firstNode
+func (lr *LRUList) removeOldest() {
+	removeNode := lr.l.FirstNode
 	lr.l.Remove(removeNode)
 }

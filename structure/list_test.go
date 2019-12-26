@@ -43,7 +43,7 @@ func Test_ListInsert(t *testing.T) {
 	for _, test := range testsInsert {
 		l.Insert(test.value)
 		assert.Equal(t, test.target, stringTestList(l))
-		assert.Equal(t, test.size, l.GetSize())
+		assert.Equal(t, test.size, l.Size)
 	}
 }
 
@@ -52,7 +52,7 @@ func Test_SingleListInsert(t *testing.T) {
 	for _, test := range testsInsert {
 		l.Insert(test.value)
 		assert.Equal(t, test.target, stringTestList(l))
-		assert.Equal(t, test.size, l.GetSize())
+		assert.Equal(t, test.size, l.Size)
 	}
 }
 
@@ -65,27 +65,27 @@ func Test_ListRemove(t *testing.T) {
 	l.Insert("ee")
 
 	tests := []struct {
-		removeNode func(l List) Node
+		removeNode func(l *List) *Node
 		target     string
 		size       int
 	}{
 		{
-			removeNode: func(l List) Node { return l.GetFirstNode() },
+			removeNode: func(li *List) *Node { return li.FirstNode },
 			target:     "bbccddee",
 			size:       4,
 		},
 		{
-			removeNode: func(l List) Node { return nil },
+			removeNode: func(li *List) *Node { return nil },
 			target:     "bbccddee",
 			size:       4,
 		},
 		{
-			removeNode: func(l List) Node { return l.GetLastNode() },
+			removeNode: func(li *List) *Node { return li.LastNode },
 			target:     "bbccdd",
 			size:       3,
 		},
 		{
-			removeNode: func(l List) Node { return l.GetFirstNode().GetNextNode() },
+			removeNode: func(li *List) *Node { return li.FirstNode.NextNode },
 			target:     "bbdd",
 			size:       2,
 		},
@@ -94,7 +94,7 @@ func Test_ListRemove(t *testing.T) {
 	for _, test := range tests {
 		l.Remove(test.removeNode(l))
 		assert.Equal(t, test.target, stringTestList(l))
-		assert.Equal(t, test.size, l.GetSize())
+		assert.Equal(t, test.size, l.Size)
 	}
 }
 
@@ -107,27 +107,27 @@ func Test_SingleListRemove(t *testing.T) {
 	l.Insert("ee")
 
 	tests := []struct {
-		removeNode func(l SinglyList) SinglyNode
+		removeNode func(li *SinglyList) *SinglyNode
 		target     string
 		size       int
 	}{
 		{
-			removeNode: func(l SinglyList) SinglyNode { return l.GetFirstNode() },
+			removeNode: func(li *SinglyList) *SinglyNode { return li.FirstNode },
 			target:     "bbccddee",
 			size:       4,
 		},
 		{
-			removeNode: func(l SinglyList) SinglyNode { return nil },
+			removeNode: func(li *SinglyList) *SinglyNode { return nil },
 			target:     "bbccddee",
 			size:       4,
 		},
 		{
-			removeNode: func(l SinglyList) SinglyNode { return l.GetLastNode() },
+			removeNode: func(li *SinglyList) *SinglyNode { return li.LastNode },
 			target:     "bbccdd",
 			size:       3,
 		},
 		{
-			removeNode: func(l SinglyList) SinglyNode { return l.GetFirstNode().GetNextNode() },
+			removeNode: func(li *SinglyList) *SinglyNode { return li.FirstNode.NextNode },
 			target:     "bbdd",
 			size:       2,
 		},
@@ -136,7 +136,7 @@ func Test_SingleListRemove(t *testing.T) {
 	for _, test := range tests {
 		l.Remove(test.removeNode(l))
 		assert.Equal(t, test.target, stringTestList(l))
-		assert.Equal(t, test.size, l.GetSize())
+		assert.Equal(t, test.size, l.Size)
 	}
 }
 
@@ -144,17 +144,17 @@ func Test_SingleListRemove(t *testing.T) {
 func stringTestList(lr interface{}) string {
 	var result string
 	switch l := lr.(type) {
-	case List:
-		node := l.GetFirstNode()
-		for !node.IsNil() {
-			result += node.GetValue().(string)
-			node = node.GetNextNode()
+	case *List:
+		node := l.FirstNode
+		for node != nil {
+			result += node.Value.(string)
+			node = node.NextNode
 		}
-	case SinglyList:
-		node := l.GetFirstNode()
-		for !node.IsNil() {
-			result += node.GetValue().(string)
-			node = node.GetNextNode()
+	case *SinglyList:
+		node := l.FirstNode
+		for node != nil {
+			result += node.Value.(string)
+			node = node.NextNode
 		}
 	}
 	return result

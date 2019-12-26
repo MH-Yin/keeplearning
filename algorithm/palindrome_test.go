@@ -1,9 +1,11 @@
 package algorithm
 
 import (
-	"github.com/MH-Yin/keeplearning/structure"
-	"github.com/magiconair/properties/assert"
+	"fmt"
 	"testing"
+
+	"github.com/MH-Yin/keeplearning/structure"
+	"github.com/stretchr/testify/assert"
 )
 
 var tests = []struct {
@@ -19,8 +21,8 @@ var tests = []struct {
 		result: true,
 	},
 	{
-		insert: []int{0, 1, 2, 3, 4, 5, 3, 2, 1, 0},
-		result: false,
+		insert: []int{0, 1, 2, 3, 5, 5, 3, 2, 1, 0},
+		result: true,
 	},
 	{
 		insert: []int{1, 2, 3, 4, 5},
@@ -38,7 +40,7 @@ func Test_isSinglyListPalindrome(t *testing.T) {
 		for _, v := range test.insert {
 			li.Insert(v)
 		}
-		//assert.Equal(t, test.result, isSinglyListPalindrome(li))
+		assert.Equal(t, test.result, isSinglyListPalindrome(li), fmt.Sprintf("%v", test))
 	}
 }
 

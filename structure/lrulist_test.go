@@ -46,7 +46,7 @@ func Test_LRU(t *testing.T) {
 
 	for _, test := range tests {
 		lru.Insert(test.value)
-		assert.Equal(t, test.target, stringTestList(lru))
+		assert.Equal(t, test.target, stringTestList(lru.l))
 		assert.Equal(t, test.size, lru.GetSize())
 	}
 }
