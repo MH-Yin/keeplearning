@@ -7,11 +7,11 @@ import (
 )
 
 func Test_LRU(t *testing.T) {
-	lru := NewLruList(0)
+	lru := newLruList(0)
 	assert.Nil(t, lru)
 
 	var cap = 3
-	lru = NewLruList(cap)
+	lru = newLruList(cap)
 	tests := []struct {
 		value  string
 		target string

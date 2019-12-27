@@ -4,12 +4,14 @@ package structure
   singly and doubly List
 */
 
+// SinglyList is singly list
 type SinglyList struct {
 	FirstNode *SinglyNode
 	LastNode  *SinglyNode
 	Size      int
 }
 
+// SinglyNode is singly list node
 type SinglyNode struct {
 	NextNode *SinglyNode
 	Value    interface{}
@@ -34,6 +36,7 @@ func (l *SinglyList) Insert(value interface{}) {
 	l.Size++
 }
 
+// Remove the specified node in singly list.
 func (l *SinglyList) Remove(n *SinglyNode) {
 	if n == nil {
 		return
@@ -50,12 +53,11 @@ func (l *SinglyList) Remove(n *SinglyNode) {
 			} else {
 				pre.NextNode = node.NextNode
 			}
+			l.Size--
 			break
 		}
-
 		pre = node
 	}
-	l.Size--
 }
 
 // List is doubly List
@@ -77,6 +79,7 @@ func NewList() *List {
 	return new(List)
 }
 
+// Insert append new node to doubly list.
 func (l *List) Insert(value interface{}) {
 	newNode := &Node{
 		Value: value,
@@ -91,6 +94,7 @@ func (l *List) Insert(value interface{}) {
 	l.Size++
 }
 
+// Remove the specified node in doubly list.
 func (l *List) Remove(n *Node) {
 	if n == nil {
 		return
