@@ -4,6 +4,18 @@ import (
 	"github.com/MH-Yin/keeplearning/structure"
 )
 
+func reverseSiglyList(list *structure.SinglyList) {
+	var sentry = list.FirstNode
+	var replace *structure.SinglyNode
+	for ; sentry != nil; {
+		next := sentry.NextNode
+		sentry.NextNode = replace
+		replace = sentry
+		sentry = next
+	}
+	list.FirstNode = replace
+}
+
 func isSinglyListPalindrome(list *structure.SinglyList) bool {
 	if list.Size <= 1 {
 		return true

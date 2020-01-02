@@ -53,3 +53,43 @@ func Test_isDoublyListPalindrome(t *testing.T) {
 		assert.Equal(t, test.result, isDoublyListPalindrome(li))
 	}
 }
+
+func Test_reverseSiglyList(t *testing.T) {
+	tests := []struct {
+		insert []int
+		result []int
+	}{
+		{
+			insert: []int{1},
+			result: []int{1},
+		},
+		{
+			insert: []int{0, 1, 2, 3},
+			result: []int{3, 2, 1, 0},
+		},
+	}
+
+	for _, test := range tests {
+		li := structure.NewSingleList()
+		for _, v := range test.insert {
+			li.Insert(v)
+		}
+
+		reverseSiglyList(li)
+		assert.Equal(t, test.result, intArrayTestList(li))
+	}
+}
+
+// helper
+func intArrayTestList(lr interface{}) []int {
+	var result []int
+	switch l := lr.(type) {
+	case *structure.SinglyList:
+		node := l.FirstNode
+		for node != nil {
+			result = append(result, node.Value.(int))
+			node = node.NextNode
+		}
+	}
+	return result
+}
