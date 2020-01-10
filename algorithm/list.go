@@ -16,6 +16,18 @@ func reverseSiglyList(list *structure.SinglyList) {
 	list.FirstNode = replace
 }
 
+func checkRingInSinglyList(list *structure.SinglyList) bool {
+	slow, fast := list.FirstNode, list.FirstNode.NextNode
+	for ; fast != nil && fast.NextNode != nil; {
+		if slow == fast {
+			return true
+		}
+		fast = fast.NextNode.NextNode
+		slow = slow.NextNode
+	}
+	return false
+}
+
 func isSinglyListPalindrome(list *structure.SinglyList) bool {
 	if list.Size <= 1 {
 		return true

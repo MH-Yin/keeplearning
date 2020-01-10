@@ -2,7 +2,9 @@ package algorithm
 
 import (
 	"fmt"
+	"math/rand"
 	"testing"
+	"time"
 
 	"github.com/MH-Yin/keeplearning/structure"
 	"github.com/stretchr/testify/assert"
@@ -78,6 +80,57 @@ func Test_reverseSiglyList(t *testing.T) {
 		reverseSiglyList(li)
 		assert.Equal(t, test.result, intArrayTestList(li))
 	}
+}
+
+func Test_checkRingInSinglyList(t *testing.T) {
+	tests := []struct {
+		singlyList *structure.SinglyList
+		result     bool
+	}{
+		{
+			singlyList: initSingleNodesWithRing(false,20),
+			result:     false,
+		},
+		{
+			singlyList: initSingleNodesWithRing(true,20),
+			result:     true,
+		},
+	}
+
+	for _, test := range tests {
+		assert.Equal(t, test.result, checkRingInSinglyList(test.singlyList))
+	}
+}
+
+func initSingleNodes(i int) (singleNodes []*structure.SinglyNode) {
+	for ; i > 0; i-- {
+		singleNodes = append(singleNodes, &structure.SinglyNode{Value: i})
+	}
+	return
+}
+
+func initSingleNodesWithRing(ring bool, length int) *structure.SinglyList {
+	nodes := initSingleNodes(length)
+	l := structure.NewSingleList()
+	l.FirstNode = nodes[0]
+	nodeK := l.FirstNode
+	var mark = -1
+	if ring {
+		rand.Seed(time.Now().UnixNano())
+		mark = rand.Intn(length)
+	}
+	for i, node := range nodes {
+		if i == 0 {
+			continue
+		}
+		nodeK.NextNode = node
+		nodeK = node
+		if i == mark {
+			node.NextNode = nodes[0]
+			break
+		}
+	}
+	return l
 }
 
 // helper
