@@ -10,18 +10,18 @@ type Stack interface {
 type arrayStack struct {
 	items []int
 	count int
-	cap   int
+	size  int
 }
 
 func NewArrayStack(cap int) Stack {
 	return &arrayStack{
 		items: make([]int, cap),
-		cap:   cap,
+		size:  cap,
 	}
 }
 
 func (s *arrayStack) Push(item int) bool {
-	if s.cap == s.count {
+	if s.size == s.count {
 		return false
 	}
 	s.items[s.count] = item

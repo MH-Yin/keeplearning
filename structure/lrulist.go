@@ -6,7 +6,7 @@ type lruList struct {
 	cap int
 }
 
-// newLruList returns List which cap
+// newLruList returns List which size
 func newLruList(cap int) *lruList {
 	if cap == 0 {
 		return nil
