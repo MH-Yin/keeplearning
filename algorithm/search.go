@@ -1,41 +1,8 @@
-package main
+package algorithm
 
-import "fmt"
 
-func main() {
-	fmt.Println(search([]int{4, 5, 6, 7, 0, 1, 2}, 0))
-}
-
-func search(nums []int, target int) int {
-	if len(nums) == 0 {
-		return -1
-	}
-
-	head, tail := 0, len(nums)-1
-	for head <= tail {
-		mid := head + (tail-head)>>1
-		if nums[mid] == target {
-			return mid
-		}
-		// 左边递增数列
-		if nums[mid] > nums[head] {
-			if nums[head] <= target {
-				return searchInSortedArray(nums, target, head, mid-1)
-			}
-			head = mid + 1
-		}
-		// 右边递增数列
-		if nums[mid] < nums[tail] {
-			if nums[tail] >= target {
-				return searchInSortedArray(nums, target, mid+1, tail)
-			}
-			tail = mid - 1
-		}
-	}
-	return -1
-}
-
-func searchInSortedArray(nums []int, target, head, tail int) int {
+// SearchInSortedArray 二分查找
+func SearchInSortedArray(nums []int, target, head, tail int) int {
 	for head <= tail {
 		mid := head + (tail-head)>>1
 		if nums[mid] > target {
@@ -50,6 +17,37 @@ func searchInSortedArray(nums []int, target, head, tail int) int {
 	return -1
 }
 
+// SearchInReverseArr 查找某段反转的有序数组
+func SearchInReverseArr(nums []int, target int) int {
+	if len(nums) == 0 {
+		return -1
+	}
+	head, tail := 0, len(nums)-1
+	for head <= tail {
+		mid := head + (tail-head)>>1
+		if nums[mid] == target {
+			return mid
+		}
+		// 左边递增数列
+		if nums[mid] > nums[head] {
+			if nums[head] <= target {
+				return SearchInSortedArray(nums, target, head, mid-1)
+			}
+			head = mid + 1
+		}
+		// 右边递增数列
+		if nums[mid] < nums[tail] {
+			if nums[tail] >= target {
+				return SearchInSortedArray(nums, target, mid+1, tail)
+			}
+			tail = mid - 1
+		}
+	}
+	return -1
+}
+
+
+// searchRange 返回所查找值的上下边界
 func searchRange(nums []int, target int) []int {
 	start, end := -1, -1
 	lens := len(nums)
@@ -104,7 +102,6 @@ func searchStartIndex(nums []int, target, head, tail int) int {
 }
 
 func searchEndIndex(nums []int, target, head, tail int) int {
-	fmt.Println(target, head, tail)
 	for head <= tail {
 		mid := head + ((tail - head) >> 1)
 		if nums[mid] == target {
@@ -121,41 +118,4 @@ func searchEndIndex(nums []int, target, head, tail int) int {
 		}
 	}
 	return -1
-}
-
-func quickSort(arr []int, head, fin int) {
-	if head > fin {
-		return
-	}
-	var pivot = arr[fin]
-	i, j := head, head
-	for ; j <= fin; j++ {
-		if arr[j] <= pivot {
-			arr[i], arr[j] = arr[j], arr[i]
-			i++
-		}
-	}
-	quickSort(arr, head, i-2)
-	quickSort(arr, i, fin)
-}
-
-func reverseList(head *listNode) *listNode {
-	var pre, tmp *listNode
-	for head != nil {
-		tmp = head.Next
-		fmt.Println(tmp)
-		head.Next = pre
-		pre = head
-		if head.Next == nil {
-			return head
-		}
-		head = tmp
-		fmt.Println(tmp)
-	}
-	return head
-}
-
-type listNode struct {
-	Val  int
-	Next *listNode
 }
