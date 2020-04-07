@@ -31,7 +31,7 @@ func TestQueue_Enqueue(t *testing.T) {
 	q := NewQueue(caps)
 	for _, test := range tests {
 		if err := q.Enqueue(test.item); err != nil {
-			assert.Equal(t, fullQueue, err)
+			assert.Equal(t, errFullQueue, err)
 		} else {
 			assert.Equal(t, test.target, q.(*queue).items)
 		}
@@ -47,7 +47,7 @@ func TestQueue_Dequeue(t *testing.T) {
 	for i := 1; i < 5; i++ {
 		item, err := q.Dequeue()
 		if err != nil {
-			assert.Equal(t, emptyQueue, err)
+			assert.Equal(t, errEmptyQueue, err)
 		} else {
 			assert.Equal(t, i, item)
 		}

@@ -1,6 +1,8 @@
 package designpattern
 
-import "sync"
+import (
+	"sync"
+)
 
 type instance struct {
 }

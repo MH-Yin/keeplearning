@@ -5,10 +5,11 @@ import (
 )
 
 var (
-	emptyQueue = errors.New("queue is empty")
-	fullQueue  = errors.New("queue is full")
+	errEmptyQueue = errors.New("queue is empty")
+	errFullQueue  = errors.New("queue is full")
 )
 
+// Queue 队列接口
 type Queue interface {
 	Enqueue(item int) error
 	Dequeue() (int, error)
@@ -22,6 +23,7 @@ type queue struct {
 	size  int
 }
 
+// NewQueue 返回队列接口
 func NewQueue(cap int) Queue {
 	return &queue{
 		items: make([]int, cap),
@@ -34,7 +36,7 @@ func NewQueue(cap int) Queue {
 func (q *queue) Enqueue(item int) error {
 	lens := len(q.items)
 	if q.size == lens {
-		return fullQueue
+		return errFullQueue
 	}
 	q.items[q.tail] = item
 	q.tail++
@@ -47,7 +49,7 @@ func (q *queue) Enqueue(item int) error {
 
 func (q *queue) Dequeue() (int, error) {
 	if q.size == 0 {
-		return 0, emptyQueue
+		return 0, errEmptyQueue
 	}
 	item := q.items[q.head]
 	q.head++

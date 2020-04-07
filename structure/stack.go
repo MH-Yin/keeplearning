@@ -1,5 +1,6 @@
 package structure
 
+// Stack s栈的接口
 type Stack interface {
 	Pop()
 	Push(item int) bool
@@ -13,6 +14,7 @@ type arrayStack struct {
 	size  int
 }
 
+// NewArrayStack 返回栈的接口
 func NewArrayStack(cap int) Stack {
 	return &arrayStack{
 		items: make([]int, cap),
